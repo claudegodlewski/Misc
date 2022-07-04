@@ -4,23 +4,31 @@ echo "# Entreprise: OpenClassrooms"
 echo "# Formation: Développeur web"
 echo "# Projet: P7 - Créez un réseau social d’entreprise"
 echo "# Description: Simple script pour forger des requêtes cURL"
+echo "# Méthodes: GET, DELETE, PUT"
+echo "# Dépendance: jq"
 echo ""
-echo "Veuillez entrer un Token: " && read bearerToken
+echo " 1. Email: " && read userMail
 echo ""
-echo "Veuillez écrire l'ID d'un post: " && read idPost && bearerTokenFiltered=$(echo $bearerToken | sed 's/Authorization\: Bearer //g')
+echo " 2. Mot de passe: " && read userPassword
 echo ""
-echo "Veuillez écrire le mail d'un utilisateur: " && read userMail
+echo " 3. Requête à écécuter dans un nouvel onglet:"
+echo "curl 'http://localhost:3000/api/auth/login' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw '{\"email\":\"$userMail\",\"password\":\"$userPassword\"}' | jq -r '.token'"
 echo ""
-echo "Veuillez écrire le mot de passe d'un utilisateur: " && read userPassword
+echo " 4. Token obtenu: " && read bearerToken
+echo ""
+echo " 5. ID du message: " && read idPost && bearerTokenFiltered=$(echo $bearerToken | sed 's/Authorization\: Bearer //g')
 echo ""
 echo "-> OK"
 echo ""
-echo "Suppression d'un message (méthode DELETE):"
-echo "curl 'http://localhost:3000/api/posts/$idPost' -X DELETE -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer $bearerTokenFiltered' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site'"
+echo "Requêtes cURL forgées:"
 echo ""
-echo "Modification d'un message (méthode PUT):"
-echo "curl 'http://localhost:3000/api/posts/$idPost' -X PUT -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer $bearerTokenFiltered' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw $'{\"name\":\"Modifié via cURL\",\"manufacturer\":\"Modifié via cURL\",\"description\":\"Modifié via cURL\"}'"
-echo ""
-echo "Login:"
+echo "Login (GET):"
 echo "curl 'http://localhost:3000/api/auth/login' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw '{\"email\":\"$userMail\",\"password\":\"$userPassword\"}'"
 echo ""
+echo "Suppression d'un message (DELETE):"
+echo "curl 'http://localhost:3000/api/posts/$idPost' -X DELETE -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer $bearerTokenFiltered' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site'"
+echo ""
+echo "Modification d'un message (PUT):"
+echo "curl 'http://localhost:3000/api/posts/$idPost' -X PUT -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer $bearerTokenFiltered' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw $'{\"name\":\"Modifié via cURL\",\"description\":\"Modifié via cURL\"}'"
+echo ""
+
