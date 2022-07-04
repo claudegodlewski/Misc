@@ -11,7 +11,7 @@ echo " 1. Email: " && read userMail
 echo ""
 echo " 2. Mot de passe: " && read userPassword
 echo ""
-echo " 3. Requête à écécuter dans un nouvel onglet:"
+echo " 3. Requête à éxécuter dans un nouvel onglet:"
 echo "curl 'http://localhost:3000/api/auth/login' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw '{\"email\":\"$userMail\",\"password\":\"$userPassword\"}' | jq -r '.token'"
 echo ""
 echo " 4. Token obtenu: " && read bearerToken
