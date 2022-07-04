@@ -7,23 +7,34 @@ echo "# Description: Simple script pour forger des requêtes cURL"
 echo "# Méthodes: GET, DELETE, PUT"
 echo "# Dépendance: jq"
 echo ""
-echo " 1. Email: " && read userMail
+echo "Etape 1: Connection et récupération d'un token utilisateur"
 echo ""
-echo " 2. Mot de passe: " && read userPassword
+echo "Email: " && read userMailLogin
 echo ""
-echo " 3. Requête à éxécuter dans un nouvel onglet:"
-echo "curl 'http://localhost:3000/api/auth/login' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw '{\"email\":\"$userMail\",\"password\":\"$userPassword\"}' | jq -r '.token'"
+echo "Mot de passe: " && read userPasswordLogin
 echo ""
-echo " 4. Token obtenu: " && read bearerToken
+echo "Requête à éxécuter dans un nouvel onglet:"
+echo "curl 'http://localhost:3000/api/auth/login' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw '{\"email\":\"$userMailLogin\",\"password\":\"$userPasswordLogin\"}' | jq -r '.token'"
 echo ""
-echo " 5. ID du message: " && read idPost && bearerTokenFiltered=$(echo $bearerToken | sed 's/Authorization\: Bearer //g')
+echo "Token obtenu: " && read bearerToken
+echo ""
+echo "ID d'un message à modifier, supprimer, ou commenter: " && read idPost && bearerTokenFiltered=$(echo $bearerToken | sed 's/Authorization\: Bearer //g')
+echo ""
+echo "Etape 2: Création d'un utilisateur"
+echo ""
+echo "Email du nouvel utilisateur: " && read userMailSignup
+echo ""
+echo "Mot de passe du nouvel utilisateur: " && read userPasswordSignup
 echo ""
 echo "-> OK"
 echo ""
 echo "Requêtes cURL forgées:"
 echo ""
-echo "Login (GET):"
-echo "curl 'http://localhost:3000/api/auth/login' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw '{\"email\":\"$userMail\",\"password\":\"$userPassword\"}'"
+echo "Connection d'un utilisateur (GET):"
+echo "curl 'http://localhost:3000/api/auth/login' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw '{\"email\":\"$userMailLogin\",\"password\":\"$userPasswordLogin\"}'"
+echo ""
+echo "Création d'un utilisateur (GET):"
+echo "curl 'http://localhost:3000/api/auth/signup' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw '{\"email\":\"$userMailSignup\",\"password\":\"$userPasswordSignup\"}'"
 echo ""
 echo "Suppression d'un message (DELETE):"
 echo "curl 'http://localhost:3000/api/posts/$idPost' -X DELETE -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer $bearerTokenFiltered' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site'"
