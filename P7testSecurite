@@ -1,0 +1,34 @@
+#!/bin/bash
+echo ""
+echo "# Entreprise: OpenClassrooms"
+echo "# Formation: Développeur web"
+echo "# Projet: P7 - Créez un réseau social d’entreprise"
+echo "# Vulnérabilité testé: Broken Access Control (méthodes DELETE et PUT)"
+echo "# Source: https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+echo "# Dépendance: jq"
+echo ""
+echo " Récupération d'un token utilisateur"
+echo ""
+echo " Email: " && read userMailLogin
+echo ""
+echo " Mot de passe: " && read userPasswordLogin
+echo ""
+echo " Requête à éxécuter dans un nouvel onglet:"
+echo "curl 'http://localhost:3000/api/auth/login' -s -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer' -H 'Content-Type: application/json' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-raw '{\"email\":\"$userMailLogin\",\"password\":\"$userPasswordLogin\"}' | jq -r '.token'"
+echo ""
+echo " Token obtenu: " && read bearerToken
+echo ""
+echo "ID d'un message à supprimer ou modifier: " && read idPost && bearerTokenFiltered=$(echo $bearerToken | sed 's/Authorization\: Bearer //g')
+echo ""
+echo "-> OK"
+echo ""
+echo " Requêtes cURL forgées:"
+echo ""
+echo " Suppression d'un message (DELETE):"
+echo "curl 'http://localhost:3000/api/post/$idPost' -X DELETE -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer $bearerTokenFiltered' -H 'Origin: http://localhost:3001' -H 'Connection: keep-alive' -H 'Referer: http://localhost:3001' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site'"
+echo ""
+echo " Modification du texte d'un message (PUT):"
+echo "curl 'http://localhost:3000/api/post/$idPost' -X PUT -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3' --compressed -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmUxMzUyN2E2OTMyYjU2M2NhYWIzODEiLCJpYXQiOjE2NTg5Mjk3NjcsImV4cCI6MTY1ODk1NDk2N30.KI88d56wBvzDHHwAvtBhnUtVK7qHUGy2vdVT2ZnnnV0' -H 'Content-Type: multipart/form-data; boundary=---------------------------25256933632998952028311281589' -H 'Origin: http://localhost:8080' -H 'Connection: keep-alive' -H 'Referer: http://localhost:8080/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' --data-binary $'-----------------------------25256933632998952028311281589\r\nContent-Disposition: form-data; name=\"text\"\r\n\r\nModifié via cURL.\r\n-----------------------------25256933632998952028311281589--\r\n'"
+echo ""
+
+
