@@ -1,0 +1,7 @@
+#/bin/bash
+git clone https://github.com/claudegodlewski/Groupomania.git && cd Groupomania/frontend && npm install && npm install sass-loader -D && npm install node-sass -D && cd .. && cd backend && npm install && echo "" && echo "Installation terminée: n'oubliez pas de créer un fichier appelé .env (voir .env.example dans le dossier backend)"
+echo ""
+echo "Pour initialiser le serveur frontend, écrivez \"npm run serve\" depuis le dossier frontend."
+echo ""
+echo "Pour initialiser le serveur backend, écrivez \"nodemon server\" depuis le dossier backend."
+echo ""
